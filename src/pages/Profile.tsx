@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Avatar,
@@ -9,6 +9,10 @@ import {
   Tab,
   TextField,
   InputAdornment,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import { Header } from '@/components/Header';
 import {
@@ -55,8 +59,14 @@ function CardProfile({ user }: { user: GitHubUser }) {
           <Typography variant="h5" fontWeight="bold">
             {user.name}
           </Typography>
-          <Typography variant="subtitle1" color="text.secondary">
-            @{user.login}
+          <Typography
+            variant="subtitle1"
+            color="text.secondary"
+            className="hover:underline"
+          >
+            <a href={user.html_url} target="_blank" rel="noreferrer">
+              @{user.login}
+            </a>
           </Typography>
         </div>
         {user.bio && (
@@ -95,31 +105,55 @@ function CardProfile({ user }: { user: GitHubUser }) {
 }
 
 export function Profile() {
-  const { username } = useParams<{ username: string }>();
+  const { username = '' } = useParams<{ username: string }>();
   const [currentTab, setCurrentTab] = useState<RepoTab>('repo');
-  const [filter, setFilter] = useState('');
+
+  const [filterText, setFilterText] = useState('');
+  const [filterType, setFilterType] = useState('All');
+  const [filterLanguage, setFilterLanguage] = useState('All');
 
   const {
     data: user,
     isLoading: userLoading,
     isError,
-  } = useGithubUser(username || '');
-  const { data: repos, isLoading: reposLoading } = useGithubRepos(
-    username || '',
-  );
-  const { data: starred, isLoading: starredLoading } = useGithubStarred(
-    username || '',
-  );
+  } = useGithubUser(username);
+  const { data: repos, isLoading: reposLoading } = useGithubRepos(username);
+  const { data: starred, isLoading: starredLoading } =
+    useGithubStarred(username);
 
   const currentList = currentTab === 'repo' ? repos : starred;
   const isLoadingList = currentTab === 'repo' ? reposLoading : starredLoading;
 
-  const filteredList = currentList?.filter(
-    (repo) =>
-      repo.name.toLowerCase().includes(filter.toLowerCase()) ||
-      (repo.description &&
-        repo.description.toLowerCase().includes(filter.toLowerCase())),
-  );
+  const availableLanguages = useMemo(() => {
+    if (!currentList) return [];
+
+    const languages = currentList.map((repo) => repo.language!).filter(Boolean);
+    return Array.from(new Set(languages)).sort();
+  }, [currentList]);
+
+  const filteredList = useMemo(() => {
+    if (!currentList) return [];
+
+    return currentList.filter((repo) => {
+      const matchesText =
+        repo.name.toLowerCase().includes(filterText.toLowerCase()) ||
+        (repo.description &&
+          repo.description.toLowerCase().includes(filterText.toLowerCase()));
+
+      const matchesLanguage =
+        filterLanguage === 'All' || repo.language === filterLanguage;
+
+      const matchesType =
+        {
+          Sources: !repo.fork,
+          Forks: repo.fork,
+          Archived: repo.archived,
+          Templates: !!repo.is_template,
+        }[filterType] ?? true;
+
+      return matchesText && matchesLanguage && matchesType;
+    });
+  }, [currentList, filterText, filterLanguage, filterType]);
 
   if (userLoading) {
     return <LoadingScreen />;
@@ -156,23 +190,56 @@ export function Profile() {
             </Tabs>
 
             <div className="py-4 px-2 flex flex-col gap-6">
-              <TextField
-                fullWidth
-                placeholder="Filtrar por nome ou descrição..."
-                variant="outlined"
-                size="small"
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-                slotProps={{
-                  input: {
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SearchIcon color="action" />
-                      </InputAdornment>
-                    ),
-                  },
-                }}
-              />
+              <div className="flex flex-col md:flex-row gap-4">
+                <TextField
+                  fullWidth
+                  placeholder="Filtrar por nome ou descrição..."
+                  variant="outlined"
+                  size="small"
+                  value={filterText}
+                  onChange={(e) => setFilterText(e.target.value)}
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <SearchIcon color="action" />
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
+                />
+
+                <FormControl size="small" className="min-w-[150px]!">
+                  <InputLabel>Linguagem</InputLabel>
+                  <Select
+                    label="Linguagem"
+                    value={filterLanguage}
+                    onChange={(e) => setFilterLanguage(e.target.value)}
+                  >
+                    <MenuItem value="All">Todos</MenuItem>
+                    {availableLanguages.map((lang) => (
+                      <MenuItem key={lang} value={lang}>
+                        {lang}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                <FormControl size="small" className="min-w-[150px]!">
+                  <InputLabel>Tipo</InputLabel>
+                  <Select
+                    value={filterType}
+                    label="Type"
+                    onChange={(e) => setFilterType(e.target.value)}
+                  >
+                    <MenuItem value="All">Todos</MenuItem>
+                    <MenuItem value="Sources">Sources</MenuItem>
+                    <MenuItem value="Forks">Forks</MenuItem>
+                    <MenuItem value="Archived">Archived</MenuItem>
+                    <MenuItem value="Templates">Templates</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
 
               {isLoadingList ? (
                 <Box display="flex" justifyContent="center" p={4}>

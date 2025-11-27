@@ -11,7 +11,7 @@ async function fetchUser(username: string): Promise<GitHubUser> {
 }
 
 async function fetchRepos(username: string): Promise<GitHubRepo[]> {
-  const { data } = await api.get<GitHubRepo[]>(`/users/${username}/repos`);
+  const { data } = await api.get<GitHubRepo[]>(`/users/${username}/repos?per_page=50&sort=updated`);
   return data;
 }
 

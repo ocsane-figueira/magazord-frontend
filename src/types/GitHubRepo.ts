@@ -8,6 +8,9 @@ export interface GitHubRepo {
   forks_count: number;
   updated_at: string;
   open_issues_count: number;
+  fork: boolean;
+  archived: boolean;
+  is_template?: boolean
   owner: {
     login: string;
   };
