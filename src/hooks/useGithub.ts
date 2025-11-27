@@ -19,6 +19,12 @@ async function fetchStarred(username: string): Promise<GitHubRepo[]> {
   return data;
 }
 
+async function fetchRepoDetails(username: string, reponame: string): Promise<GitHubRepo> {
+  const { data } = await api.get<GitHubRepo>(`/repos/${username}/${reponame}`);
+  return data;
+}
+
+
 export function useGithubUser(username: string) {
   return useQuery({
     queryKey: ['github', 'user', username],
@@ -41,5 +47,13 @@ export function useGithubStarred(username: string) {
     queryKey: ['github', 'starred', username],
     queryFn: () => fetchStarred(username),
     enabled: !!username,
+  });
+}
+
+export function useGithubRepoDetails(username: string, reponame: string) {
+  return useQuery({
+    queryKey: ['github', 'repo', 'details', username, reponame],
+    queryFn: () => fetchRepoDetails(username, reponame),
+    enabled: !!username && !!reponame,
   });
 }
