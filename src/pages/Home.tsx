@@ -1,16 +1,23 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button } from '@mui/material';
+import { useHistorySearchStore } from '@/store/useHistorySearchStore';
 import { Header } from '@/components/Header';
+
+import { HistorySearch } from '@/components/HistorySearch';
 
 export function Home() {
   const [userName, setUserName] = useState('');
   const navigate = useNavigate();
 
-  const handleSearch = () => {
-    if (!userName.trim()) return;
-    navigate(`/profile/${userName}`);
-  };
+  const { addToHistory } = useHistorySearchStore();
+
+  const handleSearch = useCallback((toSearch: string) => {
+    if (!toSearch.trim()) return;
+    
+    addToHistory(toSearch);
+    navigate(`/profile/${toSearch}`);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -34,13 +41,15 @@ export function Home() {
             <Button
               size="large"
               variant="contained"
-              onClick={handleSearch}
               disabled={!userName.trim()}
+              onClick={() => handleSearch(userName)}
               className="bg-blue-600 hover:bg-blue-700 py-3"
             >
               Buscar
             </Button>
           </div>
+
+          <HistorySearch handleSearch={handleSearch} />
         </div>
       </main>
     </div>
