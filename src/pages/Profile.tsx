@@ -21,19 +21,9 @@ import PeopleIcon from '@mui/icons-material/People';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import SearchIcon from '@mui/icons-material/Search';
 import type { GitHubUser } from '@/types/GitHubUser';
+import { LoadingScreen } from '@/components/LoadingScreen';
 
 type RepoTab = 'repo' | 'starred';
-
-function LoadingProfile() {
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <Header title="Carregando..." />
-      <div className="flex justify-center items-center h-[calc(100vh-64px)]">
-        <CircularProgress />
-      </div>
-    </div>
-  );
-}
 
 function NotFoundProfile() {
   return (
@@ -132,7 +122,7 @@ export function Profile() {
   );
 
   if (userLoading) {
-    return <LoadingProfile />;
+    return <LoadingScreen />;
   }
 
   if (isError || !user) {

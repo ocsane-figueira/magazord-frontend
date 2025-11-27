@@ -8,18 +8,8 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import CallSplitIcon from '@mui/icons-material/CallSplit';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { LoadingScreen } from '@/components/LoadingScreen';
 import { Link } from 'react-router-dom';
-
-function LoadingRepo() {
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <Header title="Carregando..." />
-      <div className="flex justify-center items-center h-[calc(100vh-64px)]">
-        <CircularProgress />
-      </div>
-    </div>
-  );
-}
 
 function NotFoundRepo() {
   return (
@@ -39,7 +29,7 @@ export function RepoDetails() {
   const { data: commits, isLoading: commitsLoading } = useGithubCommits(username || '', repoName || '');
 
   if (repoLoading) {
-    return <LoadingRepo />;
+    return <LoadingScreen />;
   }
 
   if (!repo) {
