@@ -14,6 +14,12 @@ O projeto foi desenvolvido  utilizando:
 * **Material UI**: Para componentes de interface.
 * **Axios**: Para consumo da API.
 
+## 🌐 Site
+
+Fiz a publicação do site na web utilizando a plataforma Vercel.
+* [Site](https://ocsane-magazord-frontend.vercel.app/)
+
+
 ## ⚙️ Pré-requisitos
 
 Antes de começar, certifique-se de ter instalado em sua máquina:
