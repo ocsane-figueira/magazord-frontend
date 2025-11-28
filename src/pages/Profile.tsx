@@ -43,7 +43,7 @@ function NotFoundProfile() {
 
 function CardProfile({ user }: { user: GitHubUser }) {
   return (
-    <aside className="w-full md:w-1/3 lg:w-1/4 h-fit sticky top-20">
+    <aside className="w-full md:w-1/3 lg:w-1/4 h-fit sticky">
       <div className="p-6 flex flex-col items-center text-center gap-4">
         <Avatar
           src={user.avatar_url}
@@ -167,7 +167,7 @@ export function Profile() {
     <div className="min-h-screen bg-gray-50">
       <Header title={user.name || user.login} />
 
-      <main className="container mx-auto p-4 flex flex-col md:flex-row gap-6 mt-4">
+      <main className="container mx-auto p-4 flex flex-col md:flex-row gap-6 mt-4 overflow-hidden">
         <CardProfile user={user} />
 
         <section className="flex-1">
