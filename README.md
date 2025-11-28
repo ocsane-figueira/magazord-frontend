@@ -1,73 +1,82 @@
-# React + TypeScript + Vite
+# Desafio Front-End - GitHub User Search
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este projeto é uma aplicação desenvolvida para buscar usuários do GitHub, listar repositórios e favoritos, e visualizar os detalhes dos repositórios.
 
-Currently, two official plugins are available:
+## 🚀 Tecnologias Utilizadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+O projeto foi desenvolvido  utilizando:
 
-## React Compiler
+* **React** + **Vite**:Ambiente de desenvolvimento.
+* **TypeScript**: Para garantir tipagem estática.
+* **TanStack Query**: Para gerenciamento de cache.
+* **Zustand**: Para gerenciamento de estado global com persistência.
+* **TailwindCSS**: Para estilização rápida.
+* **Material UI**: Para componentes de interface.
+* **Axios**: Para consumo da API.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ⚙️ Pré-requisitos
 
-## Expanding the ESLint configuration
+Antes de começar, certifique-se de ter instalado em sua máquina:
+* [Node.js](https://nodejs.org/) (versão 18 ou superior recomendada)
+* [Git](https://git-scm.com/)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🔧 Instalação e Execução
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Siga os passos abaixo para rodar o projeto localmente:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+1. **Clone o repositório:**
+   Abra seu terminal e execute:
+   ```bash
+   git clone [https://github.com/ocsane-figueira/magazord-frontend.git](https://github.com/ocsane-figueira/magazord-frontend.git)
+````
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+2.  **Acesse a pasta do projeto:**
+
+    ```bash
+    cd magazord-frontend
+    ```
+
+3.  **Instale as dependências:**
+
+    ```bash
+    npm install
+    ```
+
+4.  **Execute o projeto:**
+
+    ```bash
+    npm run dev
+    ```
+
+## 💡 Decisões Técnicas
+
+Durante o desenvolvimento, tomei algumas descições para atender aos requisitos:
+
+  * **Zustand:** Utilizei apenas para gerenciar o histórico de buscas, utilizando o `persist` para manter os dados salvos localmente.
+  * **MUI + Tailwind:** Utilizei o **MUI** para agilizar a criação de componentes complexos e acessíveis (como Tabs e Inputs) e o **TailwindCSS** para a estruturação do layout e espaçamentos, acelerando meu desenvolvimento.
+
+## ⚠️ Desafios e Melhorias Futuras
+
+Durante o desenvolvimento, o principal desafio foi o gerenciamento do tempo para entrega do teste. Por conta disso, identifiquei alguns pontos que eu gostaria de melhorar em uma "versão 2.0":
+
+  * **Ajustes Finos no Layout Mobile:**
+    Meu objetivo foi seguir o design proposto no Figma, porém, devido ao prazo curto, contando com trabalho e faculdade, fiz de forma simples.
+
+  * **Uso do Zustand:**
+    Como a aplicação é relativamente pequena, o uso do Zustand foi aplicado especificamente para o **Histórico de Buscas**, conforme os requisitos. A implementação serviu para atender o requisito, mesmo podendo ser feito de forma simples com soluções do React.
+
+  * **Testes:**
+    Com mais tempo, a implementação de testes unitários (Vitest) seria o próximo passo para garantir a estabilidade e qualidade do código a longo prazo.
+
+## 📂 Estrutura de Pastas
+
 ```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+src/
+  ├── components/   # Componentes visuais reutilizáveis
+  ├── hooks/        # Hooks personalizados (Lógica do React Query)
+  ├── pages/        # Páginas da aplicação (Home, Profile, RepoDetails)
+  ├── services/     # Configuração da API (Axios)
+  ├── store/        # Gerenciamento de estado global (Zustand)
+  ├── types/        # Definições de tipos TypeScript
+  └── utils/        # Funções auxiliares
 ```
