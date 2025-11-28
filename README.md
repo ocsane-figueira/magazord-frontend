@@ -34,7 +34,7 @@ Siga os passos abaixo para rodar o projeto localmente:
    Abra seu terminal e execute:
    ```bash
    git clone [https://github.com/ocsane-figueira/magazord-frontend.git](https://github.com/ocsane-figueira/magazord-frontend.git)
-````
+   ```
 
 2.  **Acesse a pasta do projeto:**
 
