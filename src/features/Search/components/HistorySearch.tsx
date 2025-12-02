@@ -1,5 +1,5 @@
 import { Typography, IconButton, Chip } from '@mui/material';
-import { useHistorySearchStore } from '@/store/useHistorySearchStore';
+import { useHistorySearchStore } from '@/features/Search/store/useHistorySearchStore';
 
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import HistoryIcon from '@mui/icons-material/History';

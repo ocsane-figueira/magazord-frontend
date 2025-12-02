@@ -1,10 +1,9 @@
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button } from '@mui/material';
-import { useHistorySearchStore } from '@/store/useHistorySearchStore';
-import { Header } from '@/components/Header';
 
-import { HistorySearch } from '@/components/HistorySearch';
+import { Header } from '@/shared/components';
+import { HistorySearch, useHistorySearchStore } from '@/features/Search';
 
 export function Home() {
   const [userName, setUserName] = useState('');
@@ -14,7 +13,7 @@ export function Home() {
 
   const handleSearch = useCallback((toSearch: string) => {
     if (!toSearch.trim()) return;
-    
+
     addToHistory(toSearch);
     navigate(`/profile/${toSearch}`);
   }, []);
