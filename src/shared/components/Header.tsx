@@ -1,6 +1,4 @@
 import { Link } from 'react-router-dom';
-import HomeIcon from '@mui/icons-material/Home';
-import { IconButton } from '@mui/material';
 
 interface HeaderProps {
   title: string;
@@ -17,12 +15,6 @@ export function Header({ title }: HeaderProps) {
           <span className="text-gray-400">/</span>
           <span className="text-lg truncate">{title}</span>
         </div>
-
-        <Link to="/">
-          <IconButton sx={{ color: 'white' }} aria-label="Voltar ao início" title="Início">
-            <HomeIcon />
-          </IconButton>
-        </Link>
       </div>
     </header>
   );

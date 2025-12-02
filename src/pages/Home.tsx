@@ -6,7 +6,7 @@ import { Header } from '@/shared/components';
 import { HistorySearch, useHistorySearchStore } from '@/features/Search';
 
 export function Home() {
-  const [userName, setUserName] = useState('');
+  const [userName, setUserName] = useState('gabrielscordeiro');
   const navigate = useNavigate();
 
   const { addToHistory } = useHistorySearchStore();

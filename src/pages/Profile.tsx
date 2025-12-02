@@ -12,9 +12,12 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Checkbox,
+  ListItemText,
 } from '@mui/material';
-
+import BookIcon from '@mui/icons-material/Book';
 import SearchIcon from '@mui/icons-material/Search';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { Header, LoadingScreen } from '@/shared/components';
 import { Card, NotFound, useUser } from '@/features/User';
 import { RepoItem, useRepos, useStarred } from '@/features/Repository';
@@ -26,8 +29,8 @@ export function Profile() {
   const [currentTab, setCurrentTab] = useState<RepoTab>('repo');
 
   const [filterText, setFilterText] = useState('');
-  const [filterType, setFilterType] = useState('All');
-  const [filterLanguage, setFilterLanguage] = useState('All');
+  const [filterType, setFilterType] = useState('');
+  const [filterLanguage, setFilterLanguage] = useState<string[]>([]);
 
   const { data: user, isLoading: userLoading, isError } = useUser(username);
   const { data: repos, isLoading: reposLoading } = useRepos(username);
@@ -52,8 +55,7 @@ export function Profile() {
         (repo.description &&
           repo.description.toLowerCase().includes(filterText.toLowerCase()));
 
-      const matchesLanguage =
-        filterLanguage === 'All' || repo.language === filterLanguage;
+      const matchesLanguage = !filterLanguage.length || (repo.language && filterLanguage.includes(repo.language));
 
       const matchesType =
         {
@@ -93,11 +95,19 @@ export function Profile() {
             >
               <Tab
                 value="repo"
-                label={`Repositórios (${repos?.length || 0})`}
+                label={<Box display="flex" alignItems="center" gap={2} textAlign="center" color="text.secondary">
+                  <BookIcon />
+                  <Typography variant='body2'>Repositórios</Typography>
+                  <Typography variant='body2' className='border px-3 rounded-2xl bg-gray-200 text-gray-400'>{repos?.length || 0}</Typography>
+                </Box>}
               />
               <Tab
                 value="starred"
-                label={`Favoritos (${starred?.length || 0})`}
+                label={<Box display="flex" alignItems="center" gap={2} textAlign="center" color="text.secondary">
+                  <StarBorderIcon />
+                  <Typography variant='body2'>Favoritos</Typography>
+                  <Typography variant='body2' className='border px-3 rounded-2xl bg-gray-200 text-gray-400'>{starred?.length || 0}</Typography>
+                </Box>}
               />
             </Tabs>
 
@@ -124,14 +134,16 @@ export function Profile() {
                 <FormControl size="small" className="min-w-[150px]!">
                   <InputLabel>Linguagem</InputLabel>
                   <Select
+                    multiple
                     label="Linguagem"
                     value={filterLanguage}
-                    onChange={(e) => setFilterLanguage(e.target.value)}
+                    renderValue={(selected) => selected.join(', ')}
+                    onChange={(e) => setFilterLanguage(typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value)}
                   >
-                    <MenuItem value="All">Todos</MenuItem>
                     {availableLanguages.map((lang) => (
                       <MenuItem key={lang} value={lang}>
-                        {lang}
+                        <Checkbox checked={filterLanguage.includes(lang)} />
+                        <ListItemText primary={lang} />
                       </MenuItem>
                     ))}
                   </Select>
@@ -140,8 +152,8 @@ export function Profile() {
                 <FormControl size="small" className="min-w-[150px]!">
                   <InputLabel>Tipo</InputLabel>
                   <Select
-                    value={filterType}
                     label="Type"
+                    value={filterType}
                     onChange={(e) => setFilterType(e.target.value)}
                   >
                     <MenuItem value="All">Todos</MenuItem>

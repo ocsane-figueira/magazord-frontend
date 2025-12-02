@@ -1,11 +1,16 @@
-import { Avatar, Box, Typography } from "@mui/material";
-import PeopleIcon from '@mui/icons-material/People';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import type { GitHubUser } from "../types/GitHubUser";
+import { Avatar, Typography } from '@mui/material';
+
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import type { GitHubUser } from '../types/GitHubUser';
+import { Information } from './Information';
+import { useState } from 'react';
 
 export function Card({ user }: { user: GitHubUser }) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <aside className="w-full md:w-1/3 lg:w-1/4 h-fit sticky">
+    <aside className=" w-full md:w-1/3 lg:w-1/4 h-fit sticky">
       <div className="p-6 flex flex-col items-center text-center gap-4">
         <Avatar
           src={user.avatar_url}
@@ -36,29 +41,29 @@ export function Card({ user }: { user: GitHubUser }) {
             "{user.bio}"
           </Typography>
         )}
-        <div className="flex flex-col gap-2 w-full text-left mt-2">
-          <Box
-            display="flex"
-            alignItems="center"
-            gap={1}
-            color="text.secondary"
+        {/* Quando for tablet ou desktop exibe direto o Information */}
+        <div className="hidden sm:block">
+          <Information user={user} />
+        </div>
+        {/* Quando for mobile exibe direto o collapsable  */}
+        <div className="flex sm:hidden w-full flex-col">
+          <div
+            className="flex flex-row justify-center items-center cursor-pointer"
+            onClick={() => setOpen((prev) => !prev)}
           >
-            <PeopleIcon fontSize="small" />
-            <Typography variant="body2">
-              <b>{user.followers}</b> seguidores · <b>{user.following}</b>{' '}
-              seguindo
-            </Typography>
-          </Box>
-          {user.location && (
-            <Box
-              display="flex"
-              alignItems="center"
-              gap={1}
-              color="text.secondary"
+            <Typography
+              color="info"
+              variant="overline"
+              className="hover:underline"
             >
-              <LocationOnIcon fontSize="small" />
-              <Typography variant="body2">{user.location}</Typography>
-            </Box>
+              Informação adicionais
+            </Typography>
+            {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </div>
+          {open && (
+            <div className="w-full bg-gray-100 p-4 rounded-2xl">
+              <Information user={user} />
+            </div>
           )}
         </div>
       </div>

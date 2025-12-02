@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { Paper, Typography, Box, Chip } from '@mui/material';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
+import { Typography, Box, Chip } from '@mui/material';
 import CallSplitIcon from '@mui/icons-material/CallSplit';
+import StarIcon from '@mui/icons-material/Star';
 import CodeIcon from '@mui/icons-material/Code';
 import type { GitHubRepository } from '../types/GitHubRepository';
 
@@ -17,8 +17,7 @@ export function RepoItem({ repo }: RepoItemProps) {
   };
 
   return (
-    <Paper
-      elevation={1}
+    <div
       onClick={handleClick}
       className="p-4 mb-4 hover:shadow-md transition-shadow border-l-4 border-transparent hover:border-blue-500 cursor-pointer"
     >
@@ -58,8 +57,8 @@ export function RepoItem({ repo }: RepoItemProps) {
               color="text.secondary"
               fontSize="0.75rem"
             >
-              <StarBorderIcon fontSize="small" />
               <span>{repo.stargazers_count}</span>
+              <StarIcon fontSize="small" />
             </Box>
 
             <Box
@@ -80,6 +79,6 @@ export function RepoItem({ repo }: RepoItemProps) {
           </div>
         </div>
       </div>
-    </Paper>
+    </div>
   );
 }
