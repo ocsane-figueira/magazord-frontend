@@ -1,32 +1,26 @@
-# Desafio Front-End - GitHub User Search
+# Desafio Front-End - GitHub
 
-Este projeto é uma aplicação desenvolvida para buscar usuários do GitHub, listar repositórios e favoritos, e visualizar os detalhes dos repositórios.
+Este projeto é uma aplicação desenvolvida para buscar usuários do GitHub, listar seus repositórios e favoritos, além de permitir o acesso aos detalhes e histórico de commits de cada projeto. 
 
-## 🚀 Tecnologias Utilizadas
+# Recursos utilizados (tecnologia, linguagem, importação de componentes) 
 
-O projeto foi desenvolvido  utilizando:
+O projeto foi desenvolvido utilizando: 
 
-* **React** + **Vite**:Ambiente de desenvolvimento.
-* **TypeScript**: Para garantir tipagem estática.
-* **TanStack Query**: Para gerenciamento de cache.
-* **Zustand**: Para gerenciamento de estado global com persistência.
-* **TailwindCSS**: Para estilização rápida.
-* **Material UI**: Para componentes de interface.
-* **Axios**: Para consumo da API.
-
-## 🌐 Site
-
-Fiz a publicação do site na web utilizando a plataforma Vercel.
-* [Site](https://ocsane-magazord-frontend.vercel.app/)
-
-
-## ⚙️ Pré-requisitos
+  * **React** + **Vite** - Para um ambiente de desenvolvimento otimizado; 
+  * **TypeScript** - Com objetivo de garantir tipagem e evitar erros ocasionais de execução; 
+  * **TanStack Query** - Gerenciamento de estado do servidor, cache e validação de dados; 
+  * **Zustand** - Gerencimento do estado global (Histórico de Busca) com persistência; 
+  * **TailwindCSS** - Para estilização; 
+  * **Material UI** - Para utilização/importação de componentes de interface acessíveis. 
+  * **Axios** - Para consumo da API do GitHub 
+  
+# Pré-requisitos 
 
 Antes de começar, certifique-se de ter instalado em sua máquina:
 * [Node.js](https://nodejs.org/) (versão 18 ou superior recomendada)
 * [Git](https://git-scm.com/)
 
-## 🔧 Instalação e Execução
+# Instalação e Execução
 
 Siga os passos abaixo para rodar o projeto localmente:
 
@@ -54,35 +48,23 @@ Siga os passos abaixo para rodar o projeto localmente:
     npm run dev
     ```
 
-## 💡 Decisões Técnicas
+# O que mudou em relação ao pensamento original (dificuldades encontradas ao desenvolver)?
 
-Durante o desenvolvimento, tomei algumas descições para atender aos requisitos:
+Durante o desenvolvimento, o principal desafio foi o gerenciamento do tempo para entrega do teste, o prazo foi prorrogado mas devido a demanda da black por exemplo, foi um pouco mais corrido.
 
-  * **Zustand:** Utilizei apenas para gerenciar o histórico de buscas, utilizando o `persist` para manter os dados salvos localmente.
-  * **MUI + Tailwind:** Utilizei o **MUI** para agilizar a criação de componentes complexos e acessíveis (como Tabs e Inputs) e o **TailwindCSS** para a estruturação do layout e espaçamentos, acelerando meu desenvolvimento.
+Zustand: Como a aplicação é relativamente pequena, o uso de um gerenciador de estados global mais robusto como o Zustand foi aplicado especificamente para o histórico de buscas, conforme os requisitos. Embora em uma aplicação deste porte o estado local pudesse resolver, a implementação serviu para demonstrar a configuração correta da biblioteca e o uso de middlewares (persistência).
 
-## ⚠️ Desafios e Melhorias Futuras
-
-Durante o desenvolvimento, o principal desafio foi o gerenciamento do tempo para entrega do teste. Por conta disso, identifiquei alguns pontos que eu gostaria de melhorar em uma "versão 2.0":
-
-  * **Ajustes Finos no Layout Mobile:**
-    Meu objetivo foi seguir o design proposto no Figma, porém, devido ao prazo curto, contando com trabalho e faculdade, fiz de forma simples.
-
-  * **Uso do Zustand:**
-    Como a aplicação é relativamente pequena, o uso do Zustand foi aplicado especificamente para o **Histórico de Buscas**, conforme os requisitos. A implementação serviu para atender o requisito, mesmo podendo ser feito de forma simples com soluções do React.
-
-  * **Testes:**
-    Com mais tempo, a implementação de testes unitários (Vitest) seria o próximo passo para garantir a estabilidade e qualidade do código a longo prazo.
-
-## 📂 Estrutura de Pastas
+# Estrutura de Pastas 
 
 ```
 src/
-  ├── components/   # Componentes visuais reutilizáveis
-  ├── hooks/        # Hooks personalizados (Lógica do React Query)
-  ├── pages/        # Páginas da aplicação (Home, Profile, RepoDetails)
-  ├── services/     # Configuração da API (Axios)
-  ├── store/        # Gerenciamento de estado global (Zustand)
-  ├── types/        # Definições de tipos TypeScript
-  └── utils/        # Funções auxiliares
+  ├── features/   # Funcionalidades do sistema. Ex: Repository, Search e User. 
+  ├── pages/      # Principais páginas exibidas para o usuário final. Ex: Home, Profile e Repository 
+  ├── routes/     # Arquivos de rotas da aplicação e definição das telas acessíveis e seus caminhos
+  ├── shared/     # Componentes e utilitários reutilizados em várias features. Ex: Header, LoadingScreen
 ```
+
+# 🌐 Site
+
+Fiz a publicação do site na web utilizando a plataforma Vercel.
+* [Site](https://ocsane-magazord-frontend.vercel.app/)
