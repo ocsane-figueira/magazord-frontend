@@ -132,6 +132,21 @@ export function Profile() {
                 />
 
                 <FormControl size="small" className="min-w-[150px]!">
+                  <InputLabel>Tipo</InputLabel>
+                  <Select
+                    label="Type"
+                    value={filterType}
+                    onChange={(e) => setFilterType(e.target.value)}
+                  >
+                    <MenuItem value="All">Todos</MenuItem>
+                    <MenuItem value="Sources">Sources</MenuItem>
+                    <MenuItem value="Forks">Forks</MenuItem>
+                    <MenuItem value="Archived">Archived</MenuItem>
+                    <MenuItem value="Templates">Templates</MenuItem>
+                  </Select>
+                </FormControl>
+
+                <FormControl size="small" className="min-w-[150px]!">
                   <InputLabel>Linguagem</InputLabel>
                   <Select
                     multiple
@@ -146,21 +161,6 @@ export function Profile() {
                         <ListItemText primary={lang} />
                       </MenuItem>
                     ))}
-                  </Select>
-                </FormControl>
-
-                <FormControl size="small" className="min-w-[150px]!">
-                  <InputLabel>Tipo</InputLabel>
-                  <Select
-                    label="Type"
-                    value={filterType}
-                    onChange={(e) => setFilterType(e.target.value)}
-                  >
-                    <MenuItem value="All">Todos</MenuItem>
-                    <MenuItem value="Sources">Sources</MenuItem>
-                    <MenuItem value="Forks">Forks</MenuItem>
-                    <MenuItem value="Archived">Archived</MenuItem>
-                    <MenuItem value="Templates">Templates</MenuItem>
                   </Select>
                 </FormControl>
               </div>
