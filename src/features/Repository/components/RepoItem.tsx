@@ -3,10 +3,10 @@ import { Paper, Typography, Box, Chip } from '@mui/material';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import CallSplitIcon from '@mui/icons-material/CallSplit';
 import CodeIcon from '@mui/icons-material/Code';
-import type { GitHubRepo } from '@/types/GitHubRepo';
+import type { GitHubRepository } from '../types/GitHubRepository';
 
 interface RepoItemProps {
-  repo: GitHubRepo;
+  repo: GitHubRepository;
 }
 
 export function RepoItem({ repo }: RepoItemProps) {

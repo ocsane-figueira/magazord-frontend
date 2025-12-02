@@ -1,5 +1,5 @@
 import { CircularProgress } from "@mui/material";
-import { Header } from "@/components/Header";
+import { Header } from "@/shared/components/Header";
 
 export function LoadingScreen() {
   return (

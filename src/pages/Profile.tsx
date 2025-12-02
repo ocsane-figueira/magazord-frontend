@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
-  Avatar,
   Typography,
   Box,
   CircularProgress,
@@ -14,95 +13,13 @@ import {
   Select,
   MenuItem,
 } from '@mui/material';
-import { Header } from '@/components/Header';
-import {
-  useGithubRepos,
-  useGithubStarred,
-  useGithubUser,
-} from '@/hooks/useGithub';
-import { RepoItem } from '@/components/RepoItem';
-import PeopleIcon from '@mui/icons-material/People';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+
 import SearchIcon from '@mui/icons-material/Search';
-import type { GitHubUser } from '@/types/GitHubUser';
-import { LoadingScreen } from '@/components/LoadingScreen';
+import { Header, LoadingScreen } from '@/shared/components';
+import { Card, NotFound, useUser } from '@/features/User';
+import { RepoItem, useRepos, useStarred } from '@/features/Repository';
 
 type RepoTab = 'repo' | 'starred';
-
-function NotFoundProfile() {
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <Header title="Erro" />
-      <div className="flex flex-col justify-center items-center h-[calc(100vh-64px)] text-red-500 gap-4">
-        <Typography variant="h5">Usuário não encontrado!</Typography>
-        <Typography>Verifique se o nome está correto.</Typography>
-      </div>
-    </div>
-  );
-}
-
-function CardProfile({ user }: { user: GitHubUser }) {
-  return (
-    <aside className="w-full md:w-1/3 lg:w-1/4 h-fit sticky">
-      <div className="p-6 flex flex-col items-center text-center gap-4">
-        <Avatar
-          src={user.avatar_url}
-          alt={user.name}
-          sx={{
-            width: 150,
-            height: 150,
-            border: '4px solid white',
-            boxShadow: 3,
-          }}
-        />
-        <div className="w-full">
-          <Typography variant="h5" fontWeight="bold">
-            {user.name}
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            color="text.secondary"
-            className="hover:underline"
-          >
-            <a href={user.html_url} target="_blank" rel="noreferrer">
-              @{user.login}
-            </a>
-          </Typography>
-        </div>
-        {user.bio && (
-          <Typography variant="body2" color="text.secondary" className="italic">
-            "{user.bio}"
-          </Typography>
-        )}
-        <div className="flex flex-col gap-2 w-full text-left mt-2">
-          <Box
-            display="flex"
-            alignItems="center"
-            gap={1}
-            color="text.secondary"
-          >
-            <PeopleIcon fontSize="small" />
-            <Typography variant="body2">
-              <b>{user.followers}</b> seguidores · <b>{user.following}</b>{' '}
-              seguindo
-            </Typography>
-          </Box>
-          {user.location && (
-            <Box
-              display="flex"
-              alignItems="center"
-              gap={1}
-              color="text.secondary"
-            >
-              <LocationOnIcon fontSize="small" />
-              <Typography variant="body2">{user.location}</Typography>
-            </Box>
-          )}
-        </div>
-      </div>
-    </aside>
-  );
-}
 
 export function Profile() {
   const { username = '' } = useParams<{ username: string }>();
@@ -112,14 +29,9 @@ export function Profile() {
   const [filterType, setFilterType] = useState('All');
   const [filterLanguage, setFilterLanguage] = useState('All');
 
-  const {
-    data: user,
-    isLoading: userLoading,
-    isError,
-  } = useGithubUser(username);
-  const { data: repos, isLoading: reposLoading } = useGithubRepos(username);
-  const { data: starred, isLoading: starredLoading } =
-    useGithubStarred(username);
+  const { data: user, isLoading: userLoading, isError } = useUser(username);
+  const { data: repos, isLoading: reposLoading } = useRepos(username);
+  const { data: starred, isLoading: starredLoading } = useStarred(username);
 
   const currentList = currentTab === 'repo' ? repos : starred;
   const isLoadingList = currentTab === 'repo' ? reposLoading : starredLoading;
@@ -160,7 +72,7 @@ export function Profile() {
   }
 
   if (isError || !user) {
-    return <NotFoundProfile />;
+    return <NotFound />;
   }
 
   return (
@@ -168,7 +80,7 @@ export function Profile() {
       <Header title={user.name || user.login} />
 
       <main className="container mx-auto p-4 flex flex-col md:flex-row gap-6 mt-4 overflow-hidden">
-        <CardProfile user={user} />
+        <Card user={user} />
 
         <section className="flex-1">
           <div className="p-0 overflow-hidden min-h-[500px]">
