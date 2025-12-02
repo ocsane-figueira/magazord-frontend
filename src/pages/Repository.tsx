@@ -1,6 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
 import {
-  Paper,
   Typography,
   CircularProgress,
   Box,
@@ -45,7 +44,7 @@ export function Repository() {
           <ArrowBackIcon fontSize="small" /> Voltar para o Perfil
         </Link>
 
-        <Paper className="p-6 mb-6">
+        <div className="p-6 mb-6">
           <div className="flex flex-col md:flex-row justify-between items-start gap-4">
             <div>
               <Typography variant="h4" fontWeight="bold" color="primary">
@@ -92,7 +91,7 @@ export function Repository() {
               Ver no GitHub
             </a>
           </div>
-        </Paper>
+        </div>
 
         <Typography variant="h5" fontWeight="bold" className="mb-4">
           Commits
@@ -103,7 +102,7 @@ export function Repository() {
             <CircularProgress />
           </Box>
         ) : (
-          <Paper className="overflow-hidden">
+          <div className="overflow-hidden">
             {commits?.slice(0, 10).map((item, index) => (
               <div key={item.sha}>
                 <div className="p-4 hover:bg-gray-50 transition flex items-start gap-4">
@@ -134,7 +133,7 @@ export function Repository() {
                 {index < commits.length - 1 && <Divider />}
               </div>
             ))}
-          </Paper>
+          </div>
         )}
       </main>
     </div>
